@@ -1,9 +1,9 @@
 // contracts/MyNFT.sol
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.5
+pragma solidity ^0.8.5;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract STKCoin is ERC20 {
+contract SToken is ERC20 {
     address public admin;
 
     event Mint(uint _value);
