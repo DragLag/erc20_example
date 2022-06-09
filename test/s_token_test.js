@@ -11,11 +11,20 @@ contract("SToken", function (accounts) {
     return assert.isTrue(true);
   });
 
-	it("should put 10000 SToken in the first account", async () => {
-    const STokenInstance = await SToken.deployed();
-    const balance = await STokenInstance.getBalance.call(accounts[0]);
 
-    assert.equal(balance.valueOf(), 10000, "10000 wasn't in the first account");
+	it("should transfer 100 SToken in the first account", async () => {
+    const STokenInstance = await SToken.deployed();
+		const transfer = STokenInstance.transfer.call(accounts[1],100)
+
+    assert.equal(transfer, true, "100 not correctly transfered");
+  });
+
+	it("should put 100 SToken in the first account", async () => {
+    const STokenInstance = await SToken.deployed();
+		const transfer = STokenInstance.transfer.call(accounts[0], 100)
+    const balance = await STokenInstance.balanceOf.call(accounts[0]);
+
+    assert.equal(balance.valueOf(), 100, "100 wasn't in the first account");
   });
 	
 	it("should send coin correctly", async () => {
@@ -27,10 +36,10 @@ contract("SToken", function (accounts) {
 
     // Get initial balances of first and second account.
     const accountOneStartingBalance = (
-      await STokenInstance.getBalance.call(accountOne)
+      await STokenInstance.balanceOf.call(accountOne)
     ).toNumber();
     const accountTwoStartingBalance = (
-      await STokenInstance.getBalance.call(accountTwo)
+      await STokenInstance.balanceOf.call(accountTwo)
     ).toNumber();
 
     // Make transaction from first account to second.
@@ -39,10 +48,10 @@ contract("SToken", function (accounts) {
 
     // Get balances of first and second account after the transactions.
     const accountOneEndingBalance = (
-      await STokenInstance.getBalance.call(accountOne)
+      await STokenInstance.balanceOf.call(accountOne)
     ).toNumber();
     const accountTwoEndingBalance = (
-      await STokenInstance.getBalance.call(accountTwo)
+      await STokenInstance.balanceOf.call(accountTwo)
     ).toNumber();
 
     assert.equal(
