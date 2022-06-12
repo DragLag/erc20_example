@@ -27,13 +27,16 @@ contract("SToken", function (accounts) {
 
     let balance_one = await STokenInstance.balanceOf.call(accounts[1]);
 
-		let transfer = await STokenInstance.transferFrom.call(accounts[1],accounts[2], 10);
 
-		let app = await STokenInstance.approve.call(accounts[1],10);
-		console.log(app);
-
-		let all = await STokenInstance.allowance.call(accounts[1],accounts[2]);
+		let app = await STokenInstance.allowance.call(accounts[1],accounts[2]);
+		let all = await STokenInstance.approveFrom.call(accounts[1],accounts[2],10);
 		console.log(all)
+
+		//let app = await STokenInstance.approve.call(accounts[1],accounts[2],10);
+		//(console.log(app);
+
+
+		let transfer = await STokenInstance.transferFrom.call(accounts[1],accounts[2], 10);
     let balance_two = await STokenInstance.balanceOf.call(accounts[2]);
 
     assert.equal(balance_one.toString(),"100", "100 wasn't in the first account");
