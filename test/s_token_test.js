@@ -14,19 +14,32 @@ contract("SToken", function (accounts) {
 
 	it("should transfer 100 SToken in the first account", async () => {
     const STokenInstance = await SToken.deployed();
-		const transfer = STokenInstance.transfer.call(accounts[1],100)
+		let transfer = await STokenInstance.transfer.call(accounts[1],100);
 
     assert.equal(transfer, true, "100 not correctly transfered");
   });
 
-	it("should put 100 SToken in the first account", async () => {
+	it("should put 10 SToken in the second account", async () => {
     const STokenInstance = await SToken.deployed();
-		const transfer = STokenInstance.transfer.call(accounts[0], 100)
-    const balance = await STokenInstance.balanceOf.call(accounts[0]);
+    console.log(accounts[1]);
+		console.log(accounts[2]);
+		let transfer_admin = await STokenInstance.transfer.call(accounts[1],100);
 
-    assert.equal(balance.valueOf(), 100, "100 wasn't in the first account");
+    let balance_one = await STokenInstance.balanceOf.call(accounts[1]);
+
+		let transfer = await STokenInstance.transferFrom.call(accounts[1],accounts[2], 10);
+
+		let app = await STokenInstance.approve.call(accounts[1],10);
+		console.log(app);
+
+		let all = await STokenInstance.allowance.call(accounts[1],accounts[2]);
+		console.log(all)
+    let balance_two = await STokenInstance.balanceOf.call(accounts[2]);
+
+    assert.equal(balance_one.toString(),"100", "100 wasn't in the first account");
+    assert.equal(balance_two.toString(),"10", "10 wasn't in the second account");
   });
-	
+	/*
 	it("should send coin correctly", async () => {
     const STokenInstance = await SToken.deployed();
 
@@ -44,7 +57,7 @@ contract("SToken", function (accounts) {
 
     // Make transaction from first account to second.
     const amount = 10;
-    await STokenInstance.sendCoin(accountTwo, amount, { from: accountOne });
+    await STokenInstance.transferFrom(accountOne,accountTwo, amount);
 
     // Get balances of first and second account after the transactions.
     const accountOneEndingBalance = (
@@ -65,4 +78,5 @@ contract("SToken", function (accounts) {
       "Amount wasn't correctly sent to the receiver"
     );
   });
+	*/
 });
