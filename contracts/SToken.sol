@@ -23,11 +23,5 @@ contract SToken is ERC20 {
     function burn(uint amount) external {
       _burn(msg.sender, amount);	
     }
-
-    function approveFrom(address owner,
-			 address spender, 
-			 uint256 amount ) external {
-      _approve(owner, spender, amount);	    
-    }	
 }
 
