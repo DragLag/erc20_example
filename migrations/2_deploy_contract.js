@@ -1,5 +1,9 @@
-var SToken = artifacts.require('SToken');
+const SToken = artifacts.require("SToken");
+
+const Ballot = artifacts.require("Ballot");
 
 module.exports = function (deployer) {
+  deployer.deploy(Ballot);
   deployer.deploy(SToken);
 };
+

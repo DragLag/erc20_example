@@ -10800,10 +10800,16 @@
       "links": {},
       "address": "0x77eA2B0fb5e91c6fC96be48F8d35e23DC0f41B73",
       "transactionHash": "0x10db6b09837d5afca4b3ae3878045d64a6690f883cd4a2f3f8664ad073ece652"
+    },
+    "1655194914191": {
+      "events": {},
+      "links": {},
+      "address": "0x49CeB046FA8B3179a5229545A8e85Bd9C1144888",
+      "transactionHash": "0x5d693af2124041fdfa986c976d0a7b557bdde079e31f761ce6b8b9f50b0d0921"
     }
   },
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-06-14T04:02:52.128Z",
+  "updatedAt": "2022-07-03T13:50:56.925Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
