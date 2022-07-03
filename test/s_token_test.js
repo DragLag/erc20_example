@@ -22,64 +22,66 @@ contract("SToken", function (accounts) {
 
 	it("should put 10 SToken in the second account", async () => {
     const STokenInstance = await SToken.deployed();
-    console.log(accounts[1]);
-		console.log(accounts[2]);
+		console.log("first account:" + accounts[0])
+    console.log("second account:" + accounts[1]);
+		console.log("third account:" +accounts[2]);
 
 		//let transfer = await STokenInstance.transfer(accounts[1],100);
     let approve = await STokenInstance.approve(accounts[1], 10);
     let all = await STokenInstance.allowance.call(accounts[0], accounts[1]);
+    
+		let balance_0 = await STokenInstance.balanceOf.call(accounts[0]);
+    let balance_1 = await STokenInstance.balanceOf.call(accounts[1]);
+    let balance_2 = await STokenInstance.balanceOf.call(accounts[2]);
+		console.log("balance 0:"+ balance_0.toString());
+		console.log("balance 1:"+ balance_1.toString());
+		console.log("balance 2:"+ balance_2.toString());
 
-    let balance_one = await STokenInstance.balanceOf.call(accounts[1]);
-		console.log(balance_one.toString());
 	  let transfer_two= await STokenInstance.transferFrom(accounts[0], accounts[2], 10, {from: accounts[1]});
 
     let balance_one_after_transfer = await STokenInstance.balanceOf.call(accounts[1]);
-		console.log(balance_one_after_transfer.toString());
+
+		let balance_0_1 = await STokenInstance.balanceOf.call(accounts[0]);
+    let balance_1_1 = await STokenInstance.balanceOf.call(accounts[1]);
+    let balance_2_1 = await STokenInstance.balanceOf.call(accounts[2]);
+		console.log("balance 0:"+ balance_0_1.toString());
+		console.log("balance 1:"+ balance_1_1.toString());
+		console.log("balance 2:"+ balance_2_1.toString());
+
     let balance_two = await STokenInstance.balanceOf.call(accounts[2]);
 
 		console.log(balance_two.toString());
-    assert.equal(balance_one.toString(),"100", "100 wasn't in the first account");
-    assert.equal(balance_two.toString(),"10", "10 wasn't in the second account");
-    assert.equal(balance_one_after_transfer.toString(),"90", "90 wasn't in the first account");
+    assert.equal(balance_1.toString(),"100", "100 wasn't in the first account");
+    assert.equal(balance_2_1.toString(),"10", "10 wasn't in the second account");
+    assert.equal(balance_1_1.toString(),"100", "100 wasn't in the first account");
   });
-	/*
-	it("should send coin correctly", async () => {
+
+
+	it("test the refund with 10 SToken in the first account", async () => {
     const STokenInstance = await SToken.deployed();
 
-    // Setup 2 accounts.
-    const accountOne = accounts[0];
-    const accountTwo = accounts[1];
+    console.log("owner:" + accounts[0]);
+    console.log("seller:" + accounts[5]);
+		console.log("found:" + accounts[1]);
 
-    // Get initial balances of first and second account.
-    const accountOneStartingBalance = (
-      await STokenInstance.balanceOf.call(accountOne)
-    ).toNumber();
-    const accountTwoStartingBalance = (
-      await STokenInstance.balanceOf.call(accountTwo)
-    ).toNumber();
+		//let transfer = await STokenInstance.transfer(accounts[1],100);
+    let approve = await STokenInstance.approve(accounts[1], //spender
+																								10); // amount
+    let all = await STokenInstance.allowance.call(accounts[0], //owner
+																									accounts[1]); //spender
 
-    // Make transaction from first account to second.
-    const amount = 10;
-    await STokenInstance.transferFrom(accountOne,accountTwo, amount);
+    let balance_seller = await STokenInstance.balanceOf.call(accounts[5]);
+		console.log("balance seller : "+balance_seller.toString());
+	  let refound = await STokenInstance.transferFrom(accounts[0],//from 
+																									accounts[5], //to
+																									10, //amount
+																									{from: accounts[1]}
+																									);
 
-    // Get balances of first and second account after the transactions.
-    const accountOneEndingBalance = (
-      await STokenInstance.balanceOf.call(accountOne)
-    ).toNumber();
-    const accountTwoEndingBalance = (
-      await STokenInstance.balanceOf.call(accountTwo)
-    ).toNumber();
+    let balance_seller_after_transfer = await STokenInstance.balanceOf.call(accounts[5]);
+		console.log("balance seller after refund:"+ balance_seller_after_transfer.toString());
 
-    assert.equal(
-      accountOneEndingBalance,
-      accountOneStartingBalance - amount,
-      "Amount wasn't correctly taken from the sender"
-    );
-    assert.equal(
-      accountTwoEndingBalance,
-      accountTwoStartingBalance + amount,
-      "Amount wasn't correctly sent to the receiver"
-    );
+    //assert.equal(balance_seller.toString(),"0", "10 wasn't in the second account");
+    assert.equal(balance_seller_after_transfer.toString(),"10", "10 wasn't in the first account");
   });
-	*/
 });
